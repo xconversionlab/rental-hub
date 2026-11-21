@@ -9,9 +9,12 @@ const APP_NAME = "Rental Hub";
 
 function Hydrator() {
   const hydrate = useHub((state) => state.hydrate);
+  const purgeExpiredRecords = useHub((state) => state.purgeExpiredRecords);
   useEffect(() => {
     hydrate();
-  }, [hydrate]);
+    const interval = window.setInterval(purgeExpiredRecords, 60_000);
+    return () => window.clearInterval(interval);
+  }, [hydrate, purgeExpiredRecords]);
   return null;
 }
 
