@@ -44,7 +44,7 @@ function NavList({ vertical }: { vertical?: boolean }) {
             <Link
               to={target}
               className={cn(
-                "flex min-h-11 items-center gap-2 rounded-2xl px-2 py-2 text-xs font-medium transition-all duration-200",
+                "group flex min-h-11 items-center gap-2 rounded-2xl px-2 py-2 text-xs font-medium transition-all duration-200",
                 vertical ? "justify-start px-3" : "flex-col justify-center",
                 active ? "bg-navy text-on-navy shadow-[0_6px_16px_rgb(12_35_64_/_0.16)]" : "text-muted hover:bg-paper hover:text-navy",
               )}
