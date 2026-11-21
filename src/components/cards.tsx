@@ -58,11 +58,11 @@ export function ListingCard({ listing }: { listing: Listing }) {
     <Link
       to="/listings/$id"
       params={{ id: row.id }}
-      className="flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-card shadow-card transition-transform duration-200 hover:-translate-y-0.5"
+      className="market-card flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-card"
     >
-      <div className="relative">
+      <div className="relative overflow-hidden">
         {row.photos[0] ? (
-          <img src={row.photos[0]} alt="" className="aspect-[3/2] w-full object-cover" />
+          <img src={row.photos[0]} alt="" className="aspect-[3/2] w-full object-cover transition-transform duration-500 hover:scale-[1.035]" />
         ) : (
           <PropertyPlate kind={plateFor(row)} />
         )}
@@ -112,7 +112,7 @@ export function RequirementCard({ requirement }: { requirement: Requirement }) {
     <Link
       to="/requirements/$id"
       params={{ id: row.id }}
-      className="flex h-full flex-col gap-3 rounded-3xl border border-line bg-card p-4 shadow-card"
+      className="market-card flex h-full flex-col gap-3 rounded-3xl border border-line bg-card p-4"
     >
       <div className="flex flex-wrap gap-2">
         {row.sample ? <Pill tone="brass">Sample</Pill> : <Pill tone="paper">Yours</Pill>}
