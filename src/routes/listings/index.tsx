@@ -18,7 +18,7 @@ function MyListings() {
       <PageHeader
         kicker="Mine"
         title="My property listings"
-        lede="Each listing is active for 60 days. Photographs stay attached to that listing, up to five. Expired listings are marked unavailable and are not deleted here."
+        lede="Each listing is active for 60 days. Photographs stay attached to that listing, up to five. Expired user listings are automatically removed from this prototype."
       />
       <p className="mb-4 text-sm text-muted">
         {active} active · {mine.length - active} expired
