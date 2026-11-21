@@ -45,12 +45,12 @@ function LegalPage() {
         </p>
         <h2 className="font-display text-2xl text-navy">Data retention</h2>
         <p className="text-sm text-pretty text-muted">
-          Every tenant requirement and landlord listing has a created date and an expiration date. The default life is 60 days. When that date passes, the record is marked expired and treated as unavailable. This foundation does not delete those rows. The data model is ready for a backend job to delete expired marketplace records after you approve that behaviour.
+          Every tenant requirement and landlord listing has a created date and an expiration date. The default life is 60 days. In this local prototype, expired user-created marketplace records are automatically removed when the app opens and while it remains open. Labelled sample records are retained only for demonstration and are never presented as real availability. Production must enforce deletion with a server-side scheduled job.
         </p>
         <p className="text-sm text-pretty text-muted">
-          Profile details, contact preferences, enquiries, and any future verification information are not on that 60-day clock. They are not deleted automatically. They should not be deleted without an explicit, approved retention policy.
+          Profile details, contact preferences, enquiries, and any future verification information are not on that 60-day clock in this prototype. The client's final retention policy for those records must be confirmed before production.
         </p>
-        <p className="text-sm text-muted">You can remove your own records, or erase everything on this device, from Profile.</p>
+        <p className="text-sm text-muted">You can erase everything stored on this device from Profile.</p>
       </article>
 
       <section className="mt-6 rounded-3xl border border-line bg-card p-5 shadow-card">

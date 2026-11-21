@@ -4,10 +4,12 @@ import type { RecordStatus } from "@/domain/types";
 
 /**
  * Marketplace listings and tenant requirements expire 60 days after they are
- * created. This foundation marks them unavailable. It does not delete them.
- * A production backend can delete expired marketplace rows on a schedule.
+ * created. Expired user-created marketplace records are removed from this
+ * local prototype on hydration and while the app is open. Labelled sample
+ * records are retained for demonstration but treated as unavailable.
+ * Production must enforce deletion with a server-side scheduled job.
  * Profiles, verification records, and enquiries are outside this rule and are
- * never removed without an approved retention policy.
+ * not removed by marketplace expiry.
  */
 export function statusFromExpiry(expiresAt: string, now = Date.now()): RecordStatus {
   const time = new Date(expiresAt).getTime();

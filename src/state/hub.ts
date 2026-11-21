@@ -31,6 +31,7 @@ interface HubState extends HubData {
   saveListing: (listing: Listing) => void;
   deleteListing: (id: string) => void;
   renewListing: (id: string) => void;
+  purgeExpiredRecords: () => void;
   addInquiry: (inquiry: Inquiry) => void;
   deleteInquiry: (id: string) => void;
   resetRecords: () => void;
@@ -81,14 +82,22 @@ export const useHub = create<HubState>((set, get) => ({
         set({ hydrated: true });
         return;
       }
-      set({
+      const now = Date.now();
+      // Keep labelled sample records for the demo, but purge expired user-created records.
+      const requirements = parsed.requirements.filter(
+        (item) => item.owner !== "me" || new Date(item.expiresAt).getTime() > now,
+      );
+      const listings = parsed.listings.filter(
+        (item) => item.owner !== "me" || new Date(item.expiresAt).getTime() > now,
+      );
+      const next = {
         profile: { ...defaultProfile, ...parsed.profile },
-        requirements: parsed.requirements,
-        listings: parsed.listings,
+        requirements,
+        listings,
         inquiries: Array.isArray(parsed.inquiries) ? parsed.inquiries : [],
-        hydrated: true,
-        storageError: "",
-      });
+      };
+      const storageError = persist(next);
+      set({ ...next, hydrated: true, storageError });
     } catch {
       set({ hydrated: true, storageError: "Saved data could not be read. Demonstration records are showing." });
     }
@@ -132,6 +141,19 @@ export const useHub = create<HubState>((set, get) => ({
     const listings = get().listings.filter((item) => item.id !== id);
     const error = persist({ ...snapshot(get()), listings });
     set({ listings, storageError: error });
+  },
+  purgeExpiredRecords: () => {
+    const now = Date.now();
+    const requirements = get().requirements.filter(
+      (item) => item.owner !== "me" || new Date(item.expiresAt).getTime() > now,
+    );
+    const listings = get().listings.filter(
+      (item) => item.owner !== "me" || new Date(item.expiresAt).getTime() > now,
+    );
+    if (requirements.length === get().requirements.length && listings.length === get().listings.length) return;
+    const next = { ...snapshot(get()), requirements, listings };
+    const error = persist(next);
+    set({ requirements, listings, storageError: error });
   },
   renewListing: (id) => {
     const current = get().listings.find((item) => item.id === id);

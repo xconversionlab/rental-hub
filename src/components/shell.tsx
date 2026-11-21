@@ -7,15 +7,17 @@ import { cn } from "@/lib/cn";
 export function Logo({ tone = "navy" }: { tone?: "navy" | "paper" }) {
   const inverted = tone === "paper";
   return (
-    <span className={cn("inline-flex items-center gap-2", inverted ? "text-paper" : "text-navy")}>
-      <span className={cn("grid size-9 place-items-center rounded-xl", inverted ? "bg-paper text-navy" : "bg-navy text-paper")}>
-        <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
-          <path d="M4 11.5 12 5l8 6.5" fill="none" stroke="currentColor" strokeWidth="1.7" />
-          <path d="M7 10.5V19h10v-8.5" fill="none" stroke="currentColor" strokeWidth="1.7" />
-          <path d="M11 19v-4h2v4" fill="currentColor" />
-        </svg>
+    <span className={cn("inline-flex items-center gap-2.5", inverted ? "text-paper" : "text-navy")}>
+      <img
+        src="/rental-hub-mark.svg"
+        alt=""
+        aria-hidden="true"
+        className="size-10 shrink-0 rounded-[0.9rem] shadow-[0_5px_16px_rgb(8_22_40_/_0.18)] transition-transform duration-300 hover:-rotate-3 hover:scale-105"
+      />
+      <span className="flex flex-col leading-none">
+        <span className="font-display text-[1.35rem] tracking-tight">Rental Hub</span>
+        <span className={cn("mt-1 text-[0.58rem] font-semibold tracking-[0.2em]", inverted ? "text-paper/60" : "text-muted")}>CANADA RENTALS</span>
       </span>
-      <span className="font-display text-xl leading-none">Rental Hub</span>
     </span>
   );
 }
@@ -32,7 +34,7 @@ function NavList({ vertical }: { vertical?: boolean }) {
   const path = useRouterState({ select: (state) => state.location.pathname });
   const role = useHub((state) => state.profile.role);
   return (
-    <ul className={cn(vertical ? "flex flex-col gap-1" : "grid grid-cols-5")}>
+    <ul className={cn(vertical ? "flex flex-col gap-1.5" : "grid grid-cols-5")}>
       {links.map((item) => {
         const active = item.match.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
         const target = item.to === "/saved" ? (role === "landlord" ? "/listings" : "/requirements") : item.to;
@@ -42,12 +44,12 @@ function NavList({ vertical }: { vertical?: boolean }) {
             <Link
               to={target}
               className={cn(
-                "flex min-h-11 items-center gap-2 rounded-2xl px-2 py-2 text-xs font-medium",
+                "group flex min-h-11 items-center gap-2 rounded-2xl px-2 py-2 text-xs font-medium transition-all duration-200",
                 vertical ? "justify-start px-3" : "flex-col justify-center",
-                active ? "bg-navy text-on-navy" : "text-muted hover:bg-card hover:text-navy",
+                active ? "bg-navy text-on-navy shadow-[0_6px_16px_rgb(12_35_64_/_0.16)]" : "text-muted hover:bg-paper hover:text-navy",
               )}
             >
-              <Icon className="size-4" aria-hidden="true" />
+              <Icon className="size-4 transition-transform duration-200 group-hover:scale-110" aria-hidden="true" />
               {item.label}
             </Link>
           </li>
@@ -65,22 +67,25 @@ export function Shell({ children }: { children: React.ReactNode }) {
   }, [hydrate]);
 
   return (
-    <div className="min-h-screen bg-paper text-ink lg:grid lg:grid-cols-[240px_1fr]">
+    <div className="min-h-screen bg-paper text-ink lg:grid lg:grid-cols-[252px_1fr]">
       <a
         href="#content"
         className="absolute -left-40 top-3 z-50 rounded-full bg-navy px-4 py-2 text-sm text-on-navy focus:left-4"
       >
         Skip to content
       </a>
-      <aside className="sticky top-0 hidden h-screen flex-col gap-8 border-r border-line bg-card px-4 py-6 lg:flex">
-        <Link to="/home" aria-label="Rental Hub home">
+      <aside className="sticky top-0 hidden h-screen flex-col gap-9 border-r border-line/80 bg-card px-5 py-7 lg:flex">
+        <Link to="/home" aria-label="Rental Hub home" className="w-fit">
           <Logo />
         </Link>
         <NavList vertical />
-        <p className="mt-auto text-xs text-pretty text-muted">Canadian rentals in CAD. Sample records are not real vacancies.</p>
+        <div className="mt-auto rounded-2xl bg-paper p-3">
+          <p className="text-[0.65rem] font-semibold tracking-[0.16em] text-brass uppercase">Built for Canada</p>
+          <p className="mt-1 text-xs leading-relaxed text-muted">Canadian rentals in CAD. Sample records are not real vacancies.</p>
+        </div>
       </aside>
       <div className="min-w-0">
-        <header className="sticky top-0 z-20 flex items-center justify-between border-b border-line bg-paper/95 px-4 py-3 backdrop-blur lg:hidden">
+        <header className="sticky top-0 z-20 flex items-center justify-between border-b border-line/80 bg-paper/90 px-4 py-3 backdrop-blur-xl lg:hidden">
           <Link to="/home" aria-label="Rental Hub home">
             <Logo />
           </Link>
@@ -90,10 +95,10 @@ export function Shell({ children }: { children: React.ReactNode }) {
             {storageError}
           </p>
         ) : null}
-        <main id="content" className="mx-auto w-full max-w-6xl px-4 py-6 pb-28 lg:px-8 lg:pb-10">
+        <main id="content" className="page-enter mx-auto w-full max-w-6xl px-4 py-6 pb-28 lg:px-8 lg:py-8 lg:pb-10">
           {children}
         </main>
-        <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-card px-2 pt-1 pb-[max(0.4rem,env(safe-area-inset-bottom))] lg:hidden" aria-label="Primary">
+        <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-line/80 bg-card/95 px-2 pt-1 pb-[max(0.4rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_rgb(12_35_64_/_0.06)] backdrop-blur-xl lg:hidden" aria-label="Primary">
           <NavList />
         </nav>
       </div>

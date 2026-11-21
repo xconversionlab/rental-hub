@@ -1,1 +1,0 @@
-function e(){return{connected:!1,provider:`On this device`,planned:`Supabase`,otp:`not-connected`,photoStorage:`device-only`}}export{e as t};
