@@ -18,7 +18,7 @@ function MyRequirements() {
       <PageHeader
         kicker="Mine"
         title="My requirements"
-        lede="Each requirement is active for 60 days from the day you save or renew it. Expired requirements stay here as unavailable. They are not deleted automatically."
+        lede="Each requirement is active for 60 days from the day you save or renew it. Expired user requirements are automatically removed from this prototype."
       />
       <p className="mb-4 text-sm text-muted">
         {active} active · {mine.length - active} expired
